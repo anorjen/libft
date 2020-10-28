@@ -3,99 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 16:27:25 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/23 16:27:25 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/30 12:18:59 by agottlie          #+#    #+#             */
+/*   Updated: 2019/07/27 16:26:05 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_wordcounter(char const *s, char c)
+static	int		ft_lenword(const char *s, char c)
 {
-	int	words;
-	int	i;
+	int i;
 
 	i = 0;
-	words = 0;
-	while (s[i] != '\0')
+	while (*s == c)
+		s++;
+	while (*s != c && *s)
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			words++;
 		i++;
+		s++;
 	}
-	return (words);
+	return (i);
 }
 
-static int	ft_chrmem(char const *s, char c, char **arr)
+static	int		ft_kwords(char const *s, char c)
 {
-	int	wlen;
-	int	i;
-	int	j;
+	int len;
+	int k;
+
+	k = 1;
+	len = 0;
+	while (*s)
+	{
+		if (*s != c && k)
+		{
+			k = 0;
+			len++;
+		}
+		if (*s == c)
+			k = 1;
+		s++;
+	}
+	return (len);
+}
+
+static	void	ft_op(char const *s, char c, char **str, int lenght)
+{
+	int j;
+	int i;
 
 	i = 0;
-	j = 0;
-	wlen = 0;
-	while (s[i] != '\0')
+	while (i < lenght)
 	{
-		if (s[i] != c)
-			wlen++;
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+		j = 0;
+		str[i] = ft_strnew(ft_lenword(s, c) + 1);
+		if (!str[i])
 		{
-			if ((arr[j] = (char *)malloc(sizeof(char) * (wlen + 1))) == NULL)
-			{
-				while (j >= 0)
-					free(arr[j--]);
-				return (0);
-			}
-			j++;
-			wlen = 0;
+			while (j <= --i)
+				free(str[i]);
+			str = NULL;
+			return ;
 		}
+		while (*s == c)
+			s++;
+		while (*s != c && *s)
+			str[i][j++] = *s++;
 		i++;
 	}
-	return (1);
+	str[i] = NULL;
 }
 
-static void	ft_fillarr(char const *s, char c, char **arr)
+char			**ft_strsplit(char const *s, char c)
 {
-	int		i;
-	int		k;
-	int		j;
+	char	**str;
+	int		lenght;
 
-	i = -1;
-	k = 0;
-	j = 0;
-	while (s[++i] != '\0')
-	{
-		if (s[i] != c)
-		{
-			arr[k][j] = s[i];
-			j++;
-		}
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-		{
-			arr[k][j] = '\0';
-			k++;
-			j = 0;
-		}
-	}
-}
-
-char		**ft_strsplit(char const *s, char c)
-{
-	char	**arr;
-	int		words;
-
-	if (s == NULL)
+	if (s != NULL)
+		lenght = ft_kwords(s, c);
+	else
 		return (NULL);
-	words = ft_wordcounter(s, c);
-	arr = (char **)malloc(sizeof(char *) * (words + 1));
-	if (!arr)
+	str = (char**)malloc(sizeof(char*) * (lenght + 1));
+	if (str != NULL)
+		ft_op(s, c, str, lenght);
+	else
 		return (NULL);
-	arr[words] = NULL;
-	if (ft_chrmem(s, c, arr) == 0)
-		return (NULL);
-	ft_fillarr(s, c, arr);
-	return (arr);
+	return (str);
 }

@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 16:35:38 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/29 16:35:38 by anorjen          ###   ########.fr       */
+/*   Created: 2018/12/07 10:44:20 by yharwyn-          #+#    #+#             */
+/*   Updated: 2019/03/27 11:30:06 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <errno.h>
-# include <stdio.h>
-# include "./libft/libft.h"
-# define BUFF_SIZE 32
+# include "libft.h"
 
-typedef struct	s_gnl
+# define BUFF_SIZE 128
+
+# if (BUFF_SIZE <= 0)
+#  error BUFF_SIZE must be > 0
+# endif
+
+typedef struct		s_node
 {
+	char			*data;
 	int				fd;
-	char			buf[BUFF_SIZE + 1];
-	struct s_gnl	*next;
-}				t_gnl;
+	struct s_node	*next;
+}					t_node;
 
-int				get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif

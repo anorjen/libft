@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/21 15:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/21 15:00:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/27 10:45:18 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:51:55 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memccpy(void *destination, const void *source, int c, size_t n)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	unsigned char		*dest;
-	const unsigned char	*src;
+	size_t			i;
+	int				k;
+	unsigned char	ch;
+	unsigned char	*new_arr;
+	unsigned char	*old_arr;
 
-	dest = (unsigned char *)destination;
-	src = (const unsigned char *)source;
-	while (n > 0)
-	{
-		*dest = *src;
-		dest++;
-		if (*src == (unsigned char)c)
-			return (dest);
-		src++;
-		n--;
-	}
+	i = -1;
+	k = 0;
+	ch = (unsigned char)c;
+	new_arr = (unsigned char *)dst;
+	old_arr = (unsigned char *)src;
+	while (++i < n)
+		if ((*(new_arr++) = *(old_arr++)) == ch)
+			return (new_arr);
 	return (NULL);
 }

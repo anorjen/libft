@@ -3,31 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 13:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/22 13:29:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/28 10:21:30 by agottlie          #+#    #+#             */
+/*   Updated: 2020/10/28 15:41:59 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *destination, const char *source, size_t n)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
 	size_t	i;
-	int		k;
 
+	if (!dst || !src)
+		return (NULL);
 	i = 0;
-	k = 0;
-	while (i < n)
+	while ((src[i] != '\0' || dst[i] != '\0') && i < len)
 	{
-		if (source[i] == '\0')
-			k = 1;
-		if (k != 1)
-			destination[i] = source[i];
-		else
-			destination[i] = '\0';
-		i++;
+		if (src[i] == '\0')
+		{
+			dst[i] = src[i];
+			++i;
+			break ;
+		}
+		dst[i] = src[i];
+		++i;
 	}
-	return (destination);
+	if (i < len - 1)
+		while (dst[i] != '\0' && i < len)
+		{
+			dst[i] = '\0';
+			++i;
+		}
+	return (dst);
 }

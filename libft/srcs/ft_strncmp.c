@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 13:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/22 13:29:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/28 10:24:03 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:54:29 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	unsigned char	*new_arr1;
+	unsigned char	*new_arr2;
+	size_t			w;
 
+	new_arr1 = (unsigned char *)s1;
+	new_arr2 = (unsigned char *)s2;
+	w = 0;
 	if (n == 0)
 		return (0);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0' && i < n - 1)
+	while (*new_arr1 == *new_arr2 && *new_arr1 != '\0' && w < n - 1)
 	{
-		i++;
+		++new_arr1;
+		++new_arr2;
+		++w;
 	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return (*new_arr1 - *new_arr2);
 }

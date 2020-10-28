@@ -3,100 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rschuppe <rschuppe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/21 16:08:21 by rschuppe          #+#    #+#             */
-/*   Updated: 2019/01/16 17:07:52 by rschuppe         ###   ########.fr       */
+/*   Created: 2019/02/18 15:05:20 by agottlie          #+#    #+#             */
+/*   Updated: 2019/02/18 15:16:22 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dispatcher.h"
+#include "ft_printf.h"
 
-int			find_specifier(const char ch)
+int			isempty(const char *format, int i)
 {
-	int i;
+	int		flag;
 
-	i = 0;
-	while (g_dispatcher[i].type_specifier)
+	flag = 0;
+	while (format[i] != '\0')
 	{
-		if (ch == g_dispatcher[i].type_specifier)
-			return (i);
+		if (format[i] != ' ' && format[i] != 39 && format[i] != 'h'
+			&& format[i] != 'l')
+		{
+			flag = 1;
+			break ;
+		}
 		i++;
 	}
-	return (-1);
-}
-
-static int	specifier_handler(int spec_idx, char **body, va_list *ap, int *len)
-{
-	t_spec			spec;
-
-	parse_spec_body(*body, ap, &spec);
-	ft_strdel(body);
-	if (g_dispatcher[spec_idx].func(ap, &spec, len))
-		return (1);
-	else
-	{
-		*len = -1;
+	if (flag == 1)
 		return (0);
-	}
+	return (1);
 }
 
-static int	spec_body_handler(
-	const char *format, char **start, va_list *ap, int *len)
+static int	ft_solver2(t_type *node, int len2, size_t *i, const char *format)
 {
-	t_spec	spec;
-	int		spec_idx;
-	int		res;
-
-	res = 1;
-	if (!is_spec_body_char(*format))
-	{
-		*start = ft_strsub(*start, 1, format - *start - 1);
-		if ((spec_idx = find_specifier(*format)) >= 0)
-			res = specifier_handler(spec_idx, start, ap, len);
-		else
-		{
-			parse_spec_body(*start, ap, &spec);
-			ft_strdel(start);
-			if ((res = print_byte_char(*format, &spec, len)) == 0)
-				*len = -1;
-			*start = NULL;
-		}
-	}
-	return (res);
+	free(node->type);
+	node->type = ft_strnew(1);
+	node->type[0] = format[*i];
+	if (node->type[0] != 'h' && node->type[0] != 'l')
+		len2 = ft_print_char(node, node->type[0], 0);
+	(*i)++;
+	ft_freenode(node);
+	return (len2);
 }
 
-static void	format_handler(const char *format, va_list *ap, int *len)
+int			ft_solver(va_list args, const char *format, size_t *i)
 {
-	char	*start;
+	t_type	*node;
+	int		len;
+	int		len2;
 
-	start = NULL;
-	while (*format)
+	len2 = 0;
+	node = ft_create_ttr();
+	ft_flagssearcher(node, format, i);
+	ft_widthsearcher(node, format, i);
+	ft_precisionsearcher(node, format, i);
+	if (ft_typesearcher(node, format, i) == SUCCESS)
 	{
-		if (start)
-		{
-			if (spec_body_handler(format, &start, ap, len) == 0)
-				return ;
-		}
-		else if (*format == '%')
-			start = (char*)format;
-		else
-		{
-			ft_putchar(*format);
-			(*len)++;
-		}
-		format++;
+		len = ft_print_dispatcher(node, args);
+		ft_freenode(node);
+		return (len);
 	}
+	else
+		return (ft_solver2(node, len2, i, format));
+	ft_freenode(node);
+	return (FAIL);
 }
 
 int			ft_printf(const char *format, ...)
 {
-	va_list	ap;
-	int		len;
+	va_list args;
+	size_t	i;
+	size_t	len;
 
+	i = 0;
 	len = 0;
-	va_start(ap, format);
-	format_handler(format, &ap, &len);
-	va_end(ap);
+	if (format == NULL)
+		exit(1);
+	va_start(args, format);
+	while (format[i] != '\0')
+		if (format[i] == '%')
+		{
+			++i;
+			if (isempty(format, i))
+				return (len);
+			len += ft_solver(args, format, &i);
+		}
+		else
+		{
+			ft_putchar(format[i]);
+			++len;
+			++i;
+		}
+	va_end(args);
 	return (len);
+}
+
+t_type		*ft_create_ttr(void)
+{
+	t_type	*ptr;
+
+	ptr = (t_type *)malloc(sizeof(t_type));
+	if (ptr == NULL)
+		return (NULL);
+	return (ptr);
 }

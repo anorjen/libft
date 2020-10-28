@@ -3,53 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 16:27:25 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/23 16:27:25 by anorjen          ###   ########.fr       */
+/*   Created: 2018/12/01 15:03:13 by agottlie          #+#    #+#             */
+/*   Updated: 2019/02/14 12:33:48 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_countnums(long int nbr)
+static char	*ft_solver(int n)
 {
-	int	i;
+	char	*arr;
+
+	if (n == -2147483648)
+	{
+		arr = (char *)malloc(11);
+		return (ft_strcpy(arr, "-2147483648"));
+	}
+	else if (n == 0)
+	{
+		arr = (char *)malloc(2);
+		return (ft_strcpy(arr, "0"));
+	}
+	return (NULL);
+}
+
+static int	ft_delit(int nbr)
+{
+	int		i;
 
 	i = 0;
-	if (nbr < 0)
-		i++;
-	while (nbr != 0)
+	if (nbr == 0)
+		return (1);
+	else if (nbr < 0)
 	{
-		nbr = nbr / 10;
-		i++;
+		++i;
+		nbr *= -1;
+	}
+	while (nbr > 0)
+	{
+		++i;
+		nbr /= 10;
 	}
 	return (i);
 }
 
 char		*ft_itoa(int n)
 {
-	int			i;
-	char		*str;
-	long int	nbr;
+	char	*new_arr;
+	int		len;
 
-	if (n == 0)
-		return (ft_strdup("0"));
-	nbr = (long int)n;
-	i = ft_countnums(nbr);
-	str = (char *)malloc(sizeof(char) * (i + 1));
-	if (str == NULL)
+	if (n == -2147483648 || n == 0)
+		return (ft_solver(n));
+	len = ft_delit(n);
+	if ((new_arr = (char *)malloc(len + 1)) == NULL)
 		return (NULL);
-	if (nbr < 0)
+	new_arr[len] = '\0';
+	if (n < 0)
 	{
-		str[0] = '-';
-		nbr *= -1;
+		new_arr[0] = '-';
+		n *= -1;
 	}
-	str[i] = '\0';
-	while (nbr > 0)
+	while (n > 0)
 	{
-		str[--i] = nbr % 10 + '0';
-		nbr = nbr / 10;
+		new_arr[--len] = n % 10 + '0';
+		n /= 10;
 	}
-	return (str);
+	return (new_arr);
 }

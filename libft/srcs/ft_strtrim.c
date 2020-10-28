@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 16:27:25 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/23 16:27:25 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/30 08:33:23 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:55:50 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,20 @@
 
 char	*ft_strtrim(char const *s)
 {
-	size_t	i;
-	size_t	j;
-	size_t	k;
-	char	*new;
+	int		begin;
+	int		end;
+	char	*new_arr;
 
 	if (s == NULL)
 		return (NULL);
-	i = 0;
-	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
-		i++;
-	if (i == ft_strlen(s))
-		return (ft_strdup(""));
-	j = ft_strlen(s) - 1;
-	while (s[j] == ' ' || s[j] == '\t' || s[j] == '\n')
-		j--;
-	new = (char *)malloc(sizeof(char) * (j - i + 2));
-	if (new == NULL)
+	begin = 0;
+	end = ft_strlen(s) - 1;
+	while (s[begin] == ' ' || s[begin] == '\n' || s[begin] == '\t')
+		++begin;
+	while ((s[end] == ' ' || s[end] == '\n' || s[end] == '\t') && end >= 0)
+		--end;
+	new_arr = ft_strsubi(s, begin, end);
+	if (new_arr == NULL)
 		return (NULL);
-	k = -1;
-	while (s[i] != '\0' && ++k < j - i + 1)
-		new[k] = s[i + k];
-	new[k] = '\0';
-	return (new);
+	return (new_arr);
 }

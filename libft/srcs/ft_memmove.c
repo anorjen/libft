@@ -3,33 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/21 15:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/21 15:00:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/23 14:13:52 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:52:18 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-void	*ft_memmove(void *destination, const void *source, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char		*dest;
-	const unsigned char	*src;
+	size_t			i;
+	unsigned char	*new_arr;
+	unsigned char	*old_arr;
 
-	dest = (unsigned char *)destination;
-	src = (unsigned char *)source;
-	if (dest <= src || dest >= (src + n))
-	{
-		while (n--)
-			*dest++ = *src++;
-	}
+	i = -1;
+	new_arr = (unsigned char *)dst;
+	old_arr = (unsigned char *)src;
+	if (new_arr > old_arr)
+		while (len-- > 0)
+			new_arr[len] = old_arr[len];
 	else
-	{
-		dest = dest + n - 1;
-		src = src + n - 1;
-		while (n--)
-			*dest-- = *src--;
-	}
-	return (destination);
+		while (++i < len)
+			new_arr[i] = old_arr[i];
+	return (new_arr);
 }

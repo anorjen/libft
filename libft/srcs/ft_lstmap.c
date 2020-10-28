@@ -3,54 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 12:56:25 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/26 12:56:25 by anorjen          ###   ########.fr       */
+/*   Created: 2018/12/05 15:42:49 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:51:43 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_lstaddnext(t_list *lst)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*llst;
-	t_list	*newelem;
+	t_list	*begin_new;
+	t_list	*new_list;
 
-	llst = lst;
-	while (llst->next)
-	{
-		llst = llst->next;
-	}
-	newelem = (t_list *)malloc(sizeof(t_list));
-	if (newelem == NULL)
-		return ;
-	newelem->next = NULL;
-	llst->next = newelem;
-}
-
-t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
-{
-	t_list	*newlst;
-	t_list	*res;
-	t_list	*llst;
-
-	if (lst == NULL)
+	if (lst == NULL || *f == NULL)
 		return (NULL);
-	llst = lst;
-	newlst = (t_list *)malloc(sizeof(t_list));
-	newlst->next = NULL;
-	if (newlst == NULL)
-		return (NULL);
-	res = newlst;
-	while (llst != NULL && newlst != NULL)
+	new_list = (f)(lst);
+	begin_new = new_list;
+	lst = lst->next;
+	while (lst != NULL)
 	{
-		newlst->content_size = f(llst)->content_size;
-		newlst->content = malloc(newlst->content_size);
-		ft_memcpy(newlst->content, f(llst)->content, newlst->content_size);
-		llst = llst->next;
-		ft_lstaddnext(newlst);
-		newlst = newlst->next;
+		new_list->next = (f)(lst);
+		if (new_list->next == NULL)
+			return (NULL);
+		lst = lst->next;
+		new_list = new_list->next;
 	}
-	return (res);
+	new_list->next = NULL;
+	free(lst);
+	return (begin_new);
 }

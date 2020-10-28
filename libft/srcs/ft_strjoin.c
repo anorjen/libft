@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 15:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/23 15:29:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/29 16:52:23 by agottlie          #+#    #+#             */
+/*   Updated: 2019/10/27 12:26:36 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,25 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len1;
-	size_t	len2;
-	size_t	i;
-	char	*new;
+	char	*new_arr;
+	int		i;
+	int		j;
 
+	j = 0;
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	if (s1 == NULL)
 		return (ft_strdup(s2));
 	if (s2 == NULL)
 		return (ft_strdup(s1));
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	new = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
-	if (new == NULL)
+	new_arr = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
+	if (new_arr == NULL)
 		return (NULL);
 	i = -1;
-	while (++i < len1)
-		new[i] = s1[i];
-	while ((++i - 1 - len1) < len2)
-		new[i - 1] = s2[i - 1 - len1];
-	new[i - 1] = '\0';
-	return (new);
+	while (s1[++i] != '\0')
+		new_arr[j++] = s1[i];
+	i = -1;
+	while (s2[++i] != '\0')
+		new_arr[j++] = s2[i];
+	return (new_arr);
 }

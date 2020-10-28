@@ -3,32 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 13:00:02 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/22 13:29:02 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/24 18:09:03 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:55:02 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *where, const char *what, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
+	char	*src;
+	char	*search;
+	size_t	g;
 	size_t	i;
 
-	if (where == NULL || len == 0 || ft_strlen(what) > ft_strlen(where)
-		|| ft_strlen(what) > len)
-		return (NULL);
-	if (what[0] == '\0' || what == NULL)
-		return ((char *)where);
-	if (len > ft_strlen(where))
-		len = ft_strlen(where);
-	i = 0;
-	while (where[i] != '\0' && i <= len - ft_strlen(what))
-	{
-		if (ft_strncmp(&where[i], what, ft_strlen(what)) == 0)
-			return ((char *)&where[i]);
-		i++;
-	}
+	src = (char *)haystack;
+	search = (char *)needle;
+	i = -1;
+	g = 0;
+	if (ft_strlen(search) == 0)
+		return (src);
+	while (src[++i] != '\0' && i < len)
+		if (src[i] == search[g])
+		{
+			++g;
+			if (search[g] == '\0')
+				return (src + (i - g) + 1);
+		}
+		else
+		{
+			i = i - g;
+			g = 0;
+		}
 	return (NULL);
 }

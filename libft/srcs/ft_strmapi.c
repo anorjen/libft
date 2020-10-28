@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anorjen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 12:27:25 by anorjen           #+#    #+#             */
-/*   Updated: 2018/11/23 12:27:25 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/29 13:47:44 by agottlie          #+#    #+#             */
+/*   Updated: 2018/12/05 16:54:21 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	i;
-	char	*new;
+	char			*new_arr;
+	char			*begining;
+	unsigned int	i;
 
-	if (!s)
-		return (NULL);
-	new = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (new == NULL)
+	if (s == NULL || f == NULL)
 		return (NULL);
 	i = -1;
-	while (++i < ft_strlen(s))
-		new[i] = f((unsigned int)i, s[i]);
-	new[i] = '\0';
-	return (new);
+	if ((new_arr = ft_strnew(ft_strlen(s))) == NULL)
+		return (NULL);
+	begining = new_arr;
+	while (s[++i] != '\0')
+		*new_arr++ = (f)(i, s[i]);
+	*new_arr = '\0';
+	return (begining);
 }
