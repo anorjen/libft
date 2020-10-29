@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/13 23:44:16 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/29 12:11:16 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ INCLUDES = -I$(HEADERS_DIRECTORY)
 HEADERS_LIST =	ft_printf.h \
 				ft_dlist.h \
 				libft.h \
-				get_next_line.h
+				get_next_line.h \
+				ft_utf8.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
@@ -69,6 +70,17 @@ PRINTF_OBJ_DIRECTORY = objects/printf/
 PRINTF_OBJ_LIST = $(patsubst %.c, %.o, $(PRINTF_SRC_LIST))
 PRINTF_OBJECTS	= $(addprefix $(PRINTF_OBJ_DIRECTORY), $(PRINTF_OBJ_LIST))
 
+
+UTF8_SRC_DIRECTORY = ./srcs/utf8/
+UTF8_SRC_LIST = 	ft_ctou.c	ft_ustrlen.c	ft_ustrnew.c	ft_utoc.c \
+					uread.c		uread_utils.c	usym_size.c		uwrite.c
+
+UTF8_SOURCES = $(addprefix $(UTF8_SRC_DIRECTORY), $(UTF8_SRC_LIST))
+UTF8_OBJ_DIRECTORY = objects/utf8/
+UTF8_OBJ_LIST = $(patsubst %.c, %.o, $(UTF8_SRC_LIST))
+UTF8_OBJECTS	= $(addprefix $(UTF8_OBJ_DIRECTORY), $(UTF8_OBJ_LIST))
+
+
 # COLORS
 
 GREEN = \033[0;32m
@@ -79,7 +91,7 @@ RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS_DIRECTORY) $(HEADERS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS) $(OBJECTS)
+$(NAME): $(OBJECTS_DIRECTORY) $(HEADERS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS) $(UTF8_OBJECTS) $(OBJECTS)
 	@ar rc $(NAME) $(OBJECTS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS)
 	@ranlib $(NAME)
 	@echo "\n$(NAME): $(GREEN)$(NAME) was created$(RESET)"
@@ -88,6 +100,7 @@ $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@mkdir -p $(DLIST_OBJ_DIRECTORY)
 	@mkdir -p $(PRINTF_OBJ_DIRECTORY)
+	@mkdir -p $(UTF8_OBJ_DIRECTORY)
 	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
 
 $(OBJECTS_DIRECTORY)%.o: $(SOURCES_DIRECTORY)%.c
@@ -99,6 +112,10 @@ $(DLIST_OBJ_DIRECTORY)%.o: $(DLIST_SRC_DIRECTORY)%.c
 	@echo "$(GREEN).$(RESET)\c"
 
 $(PRINTF_OBJ_DIRECTORY)%.o: $(PRINTF_SRC_DIRECTORY)%.c
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo "$(GREEN).$(RESET)\c"
+
+$(UTF8_OBJ_DIRECTORY)%.o: $(UTF8_SRC_DIRECTORY)%.c
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
 	@echo "$(GREEN).$(RESET)\c"
 
