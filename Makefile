@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/29 12:11:16 by anorjen          ###   ########.fr        #
+#    Updated: 2020/11/22 17:17:16 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SOURCES_LIST = 	ft_atoi.c		ft_bzero.c			ft_colorize_str.c	ft_isalnum.c		ft_isalp
 				ft_strmapi.c	ft_strncat.c		ft_strncmp.c		ft_strncpy.c		ft_strnequ.c \
 				ft_strnew.c		ft_strnstr.c		ft_strrchr.c		ft_strsplit.c		ft_strstr.c \
 				ft_strsub.c		ft_strsubi.c		ft_strtrim.c		ft_strtrim_c.c		ft_tolower.c \
-				ft_toupper.c	ft_word_count_c.c	get_next_line.c		ft_write_upper.c
+				ft_toupper.c	ft_word_count_c.c	get_next_line.c		ft_write_upper.c	ft_strspliter.c \
+				ft_strspliter1.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 OBJECTS_DIRECTORY = objects/

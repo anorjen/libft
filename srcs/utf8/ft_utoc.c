@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 12:13:10 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/28 18:29:00 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/22 17:52:37 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static size_t	input(char *buf, uint32_t c)
 	return (ret);
 }
 
-char	*ft_utoc( uint32_t *s)
+char			*ft_utoc(uint32_t *s)
 {
 	size_t	i;
 	size_t	ret;

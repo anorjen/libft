@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 13:06:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/28 17:25:44 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/22 17:53:52 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_unode	*ft_findfd(t_unode *lst, int fd, char *buf)
 	return (NULL);
 }
 
-static char	*read_block(int fd)
+static char		*read_block(int fd)
 {
 	char	*buf;
 	int		ret;
@@ -41,7 +41,7 @@ static char	*read_block(int fd)
 	return (buf);
 }
 
-static void	init(char *line[], char **buf)
+static void		init(char *line[], char **buf)
 {
 	line[0] = NULL;
 	line[1] = NULL;
@@ -55,7 +55,7 @@ static void	init(char *line[], char **buf)
 **	str[1] - строка char с целым кол-вом юникод символов
 */
 
-static char	*get_line(t_unode **root, int fd, size_t *nsym)
+static char		*get_line(t_unode **root, int fd, size_t *nsym)
 {
 	t_unode		*tmp;
 	char		*buf;
@@ -84,7 +84,7 @@ static char	*get_line(t_unode **root, int fd, size_t *nsym)
 	return (str[1]);
 }
 
-ssize_t		uread(int fd, t_usym *ustr, size_t nsym)
+ssize_t			uread(int fd, t_usym *ustr, size_t nsym)
 {
 	static t_unode	*root;
 	char			*line;
