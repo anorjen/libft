@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 12:13:10 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 17:52:37 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/23 11:50:47 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static size_t	input(char *buf, uint32_t c)
 	return (ret);
 }
 
-char			*ft_utoc(uint32_t *s)
+char			*ft_utoc(t_usym *s)
 {
 	size_t	i;
 	size_t	ret;
 	char	*out;
 	char	*tmp;
 
-	if ((out = (char*)malloc(sizeof(uint32_t) * ft_ustrlen(s))) == NULL)
+	if ((out = ft_strnew(sizeof(t_usym) * ft_ustrlen(s))) == NULL)
 		return (NULL);
 	tmp = out;
 	i = -1;

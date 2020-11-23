@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/11/22 17:17:16 by anorjen          ###   ########.fr        #
+#    Updated: 2020/11/23 10:58:14 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ HEADERS_LIST =	ft_printf.h \
 				libft.h \
 				get_next_line.h \
 				ft_utf8.h
+
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
@@ -74,7 +75,8 @@ PRINTF_OBJECTS	= $(addprefix $(PRINTF_OBJ_DIRECTORY), $(PRINTF_OBJ_LIST))
 
 UTF8_SRC_DIRECTORY = ./srcs/utf8/
 UTF8_SRC_LIST = 	ft_ctou.c	ft_ustrlen.c	ft_ustrnew.c	ft_utoc.c \
-					uread.c		uread_utils.c	usym_size.c		uwrite.c
+					uread.c		uread_utils.c	usym_size.c		uwrite.c \
+					ft_uisprint.c
 
 UTF8_SOURCES = $(addprefix $(UTF8_SRC_DIRECTORY), $(UTF8_SRC_LIST))
 UTF8_OBJ_DIRECTORY = objects/utf8/
@@ -93,7 +95,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(HEADERS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS) $(UTF8_OBJECTS) $(OBJECTS)
-	@ar rc $(NAME) $(OBJECTS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS)
+	@ar rc $(NAME) $(OBJECTS) $(DLIST_OBJECTS) $(PRINTF_OBJECTS) $(UTF8_OBJECTS)
 	@ranlib $(NAME)
 	@echo "\n$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 

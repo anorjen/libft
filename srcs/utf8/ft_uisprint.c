@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ustrlen.c                                       :+:      :+:    :+:   */
+/*   ft_uisprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/22 12:16:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 19:37:40 by anorjen          ###   ########.fr       */
+/*   Created: 2020/11/22 18:45:53 by anorjen           #+#    #+#             */
+/*   Updated: 2020/11/22 19:36:25 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_utf8.h"
 
-size_t	ft_ustrlen(t_usym *s)
+int		ft_uisprint(t_usym c)
 {
-	size_t	i;
-
-	if (s == NULL || *s == 0)
+	if ((c > 0 && c < 32) || (c > 126 && c <= 128))
 		return (0);
-	i = 0;
-	while (s[i] != 0)
-		++i;
-	return (i);
+	return (1);
 }

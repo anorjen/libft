@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 11:34:30 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 17:50:42 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/22 19:36:45 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ ssize_t				uread(int fd, t_usym *buf, size_t nsym);
 size_t				usym_size(char c);
 size_t				ft_ustrlen(t_usym *str);
 t_usym				*ft_ustrnew(size_t size);
+
+int					ft_uisprint(t_usym c);
 
 #endif

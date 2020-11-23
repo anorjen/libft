@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 12:54:21 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 17:53:28 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/22 19:35:54 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static size_t	input(uint32_t *buf, char *s)
 	return (l);
 }
 
-uint32_t		*ft_ctou(char *s)
+t_usym		*ft_ctou(char *s)
 {
 	size_t		size;
-	uint32_t	*out;
-	uint32_t	*tmp;
+	t_usym		*out;
+	t_usym		*tmp;
 	size_t		i;
 
 	size = ft_strlen(s);
