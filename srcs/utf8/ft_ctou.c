@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 12:54:21 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 19:35:54 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/23 15:41:19 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_usym		*ft_ctou(char *s)
 	size_t		i;
 
 	size = ft_strlen(s);
-	out = (uint32_t*)malloc(sizeof(uint32_t) * size + 1);
+	if ((out = ft_ustrnew(size)) == NULL)
+		return (NULL);
 	tmp = out;
 	i = -1;
 	while (++i < size)
@@ -62,6 +63,6 @@ t_usym		*ft_ctou(char *s)
 			i += input(tmp++, &(s[i])) - 1;
 		}
 	}
-	*(tmp) = 0;
+	*tmp = 0;
 	return (out);
 }
