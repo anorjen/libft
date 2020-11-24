@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 12:52:55 by agottlie          #+#    #+#             */
-/*   Updated: 2020/11/22 17:51:10 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 10:50:37 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,10 @@ char				**ft_strspliter(char const *s, char *delimeters);
 char				*find_closed_bracket(char *str);
 int					skip(int i, char *str);
 void				reset_delimeter(char *str, int length, char *delimeters);
+
+char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
+char				*ft_strndup(const char *str, size_t n);
+
+
 
 #endif

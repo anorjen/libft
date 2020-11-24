@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/29 16:35:38 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/24 10:43:45 by anorjen          ###   ########.fr       */
+/*   Created: 2018/11/21 15:00:02 by anorjen           #+#    #+#             */
+/*   Updated: 2020/11/24 10:50:12 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <errno.h>
-# include <stdio.h>
-# include "libft.h"
-
-# define BUFF_SIZE 32
-
-typedef struct	s_gnl
+char	*ft_strndup(const char *str, size_t n)
 {
-	int				fd;
-	char			buf[BUFF_SIZE + 1];
-	struct s_gnl	*next;
-}				t_gnl;
+	char	*new_str;
+	size_t	i;
 
-int				get_next_line(const int fd, char **line);
-
-#endif
+	if (str == NULL)
+		return (NULL);
+	if (n > ft_strlen(str))
+		n = ft_strlen(str);
+	new_str = (char *)malloc(sizeof(char) * (n + 1));
+	if (new_str == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
+}

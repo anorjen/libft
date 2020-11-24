@@ -3,124 +3,127 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/14 14:14:27 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/03/27 11:54:13 by yharwyn-         ###   ########.fr       */
+/*   Created: 2018/12/05 17:19:27 by anorjen           #+#    #+#             */
+/*   Updated: 2020/11/24 10:42:47 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static t_node	*ft_lstnew_light(int fd)
+static char		*ft_strrsize(char *dest, char *app, size_t n)
 {
-	t_node		*root;
+	char	*buf;
 
-	if (!(root = (t_node *)malloc(sizeof(t_node))))
-		return (NULL);
-	(fd >= 0) ? root->fd = fd : 0;
-	root->data = NULL;
-	root->next = NULL;
-	return (root);
-}
-
-static void		ft_datamerge_lst(t_node **root, char *data,
-	size_t start, size_t finish)
-{
-	t_node		*ptr;
-	size_t		i;
-	size_t		size;
-
-	i = 0;
-	size = finish - start;
-	ptr = (*root);
-	ptr->data = ft_strnew(size);
-	while (i < (size - 1))
+	buf = NULL;
+	if (app)
 	{
-		ptr->data[i] = data[start];
-		i++;
-		start++;
+		if (dest != NULL)
+		{
+			buf = ft_strdup(dest);
+			free(dest);
+			dest = ft_strnjoin(buf, app, n);
+			free(buf);
+		}
+		else
+			dest = ft_strnjoin(dest, app, n);
+		if (n == ft_strlen(app))
+			app[0] = '\0';
+		else
+			ft_strcpy(app, &app[n + 1]);
+		return (dest);
 	}
+	return (NULL);
 }
 
-static t_node	*ft_check_fd(t_node **root, int fd)
+static int		ft_gnladd(t_gnl **lst, int fd, char *buf)
 {
-	t_node *ptr;
+	t_gnl	*new;
 
-	if (!(*root))
-		return (ft_lstnew_light(fd));
-	ptr = *root;
-	if (ptr->fd == fd)
-		return (ptr);
+	if ((new = (t_gnl *)malloc(sizeof(t_gnl))) == NULL)
+		return (-1);
+	new->fd = fd;
+	ft_strcpy(new->buf, buf);
+	new->next = NULL;
+	if (*lst)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 	else
-	{
-		while (ptr->next)
-		{
-			if (ptr->fd == fd)
-				return (ptr);
-			ptr = ptr->next;
-		}
-		ptr->next = ft_lstnew_light(fd);
-	}
-	if (ptr->fd == fd)
-		return (ptr);
-	return (ptr->next);
+		(*lst) = new;
+	return (1);
 }
 
-static int		gnl_workhorse(char **tmp, char *buff, char **line, int fd)
+static t_gnl	*ft_findfd(t_gnl *lst, int fd, char *buf)
 {
-	char			*tmp_free;
-	int				n;
-
-	while (!ft_strchr((*tmp), '\n'))
+	while (lst)
 	{
-		if ((n = read(fd, buff, BUFF_SIZE)) < 0)
-			return (-1);
-		buff[n] = '\0';
-		tmp_free = ft_strjoin((*tmp), buff);
-		ft_strdel(&(*tmp));
-		(*tmp) = tmp_free;
-		if (!n && !ft_strchr((*tmp), '\n'))
+		if (fd == lst->fd)
 		{
-			if (!n && (*tmp) != NULL)
+			ft_strcpy(buf, lst->buf);
+			return (lst);
+		}
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
+static ssize_t	ft_gnl(const int fd, char **line, ssize_t end, char *buf)
+{
+	ssize_t	chrs;
+
+	while (end < 0)
+	{
+		if ((end = (ssize_t)(ft_strchr(buf, '\n') - buf)) < 0)
+		{
+			if (buf[0] != '\0')
 			{
-				(*line) = ft_strsub((*tmp), 0, ft_strlen((*tmp)));
-				if (ft_strlen((*tmp)) < 1)
-					return (0);
-				ft_strdel(&(*tmp));
-				return (1);
+				if ((*line = ft_strrsize(*line, buf, ft_strlen(buf))) == NULL)
+					return (-1);
 			}
-			return (0);
+			if ((chrs = read(fd, buf, BUFF_SIZE)) <= 0)
+				break ;
+			buf[chrs] = '\0';
+		}
+		else
+		{
+			if ((*line = ft_strrsize(*line, buf, end)) == NULL)
+				return (-1);
 		}
 	}
-	return (8);
+	if (*line)
+		return (1);
+	else
+		return (chrs);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	char			*tmp;
-	char			buff[BUFF_SIZE + 1];
-	static t_node	*root;
-	t_node			*ptr;
-	int				n;
+	static t_gnl	*lst;
+	t_gnl			*alst;
+	ssize_t			end;
+	char			buf[BUFF_SIZE + 1];
+	ssize_t			res;
 
-	if (root == NULL)
+	if (fd < 0 || fd == 1 || fd == 2 || line == NULL)
+		return (-1);
+	end = -1;
+	*line = NULL;
+	if ((alst = ft_findfd(lst, fd, buf)) == NULL)
 	{
-		root = ft_check_fd(&root, fd);
-		ptr = root;
+		if ((res = read(fd, buf, BUFF_SIZE)) <= 0)
+			return (res);
+		buf[res] = '\0';
 	}
-	ptr = ft_check_fd(&root, fd);
-	tmp = ft_strnew(0);
-	if (ptr->data != NULL)
+	res = ft_gnl(fd, line, end, buf);
+	if (!alst)
 	{
-		tmp = ft_strjoin(tmp, ptr->data);
-		ft_strdel(&ptr->data);
+		if (ft_gnladd(&lst, fd, buf) == -1)
+			return (-1);
 	}
-	if ((n = gnl_workhorse(&tmp, buff, line, fd)) != 8)
-		return (n);
-	n = ft_strlen(tmp) - ft_strlen(ft_strchr(tmp, '\n'));
-	(*line) = ft_strsub(tmp, 0, (n));
-	ft_datamerge_lst(&ptr, (tmp + 1), (n), ft_strlen(tmp));
-	ft_strdel(&tmp);
-	return (1);
+	else
+		ft_strcpy(alst->buf, buf);
+	return (res);
 }
