@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 12:52:55 by agottlie          #+#    #+#             */
-/*   Updated: 2020/11/24 11:26:33 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/27 09:37:47 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ void				reset_delimeter(char *str, int length, char *delimeters);
 
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char				*ft_strndup(const char *str, size_t n);
+int					ft_is_str_empty(char *str);
 
 #endif
