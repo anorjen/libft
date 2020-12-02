@@ -6,11 +6,12 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 09:27:55 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/27 09:47:42 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/12/02 18:45:32 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_utf8.h"
 
 static int	is_space(char *str)
 {
@@ -19,7 +20,7 @@ static int	is_space(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_isprint(str[i]))
+		if (ft_uisprint(str[i]))
 			return (0);
 	}
 	return (1);
