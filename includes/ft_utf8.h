@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 11:34:30 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/22 19:36:45 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/12/03 13:26:07 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ size_t				ft_ustrlen(t_usym *str);
 t_usym				*ft_ustrnew(size_t size);
 
 int					ft_uisprint(t_usym c);
+int					ft_is_ustr_empty(char *str);
 
 #endif
