@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 12:52:55 by agottlie          #+#    #+#             */
-/*   Updated: 2020/11/27 09:37:47 by anorjen          ###   ########.fr       */
+/*   Updated: 2021/01/03 19:36:51 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void				colorize_str(char *str, int mod);
 void				*ft_realloc(void *ptr, size_t original_length,
 		size_t new_length);
 void				ft_write_upper(int fd, char *str, size_t size);
+unsigned char		*ft_strtolower(unsigned char *s);
 
 char				**ft_strspliter(char const *s, char *delimeters);
 char				*find_closed_bracket(char *str);
